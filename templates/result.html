@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Sonuç - Spam Filtreleme{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4 text-center">Spam Filtreleme Sonucu</h2>
+    {% if prediction %}
+        {% if prediction == 'spam' %}
+            <p class="result spam">Bu e-posta <strong>Spam</strong>!</p>
+            <p>Spam olma olasılığı: {{ '%.2f'|format(proba * 100) }}%</p>
+            <img src="https://img.icons8.com/emoji/96/000000/red-circle-emoji.png" alt="Spam">
+        {% else %}
+            <p class="result ham">Bu e-posta <strong>Ham</strong>.</p>
+            <p>Spam olma olasılığı: {{ '%.2f'|format((1 - proba) * 100) }}%</p>
+            <img src="https://img.icons8.com/emoji/96/000000/green-circle-emoji.png" alt="Ham">
+        {% endif %}
+    {% else %}
+        <div class="alert alert-warning" role="alert">
+            Bir hata oluştu. Lütfen tekrar deneyin.
+        </div>
+    {% endif %}
+    <a href="{{ url_for('home') }}" class="btn btn-secondary mt-3">Geri Dön</a>
+{% endblock %}

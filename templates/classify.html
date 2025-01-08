@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Manuel Sınıflandırma{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4 text-center">Manuel E-posta Sınıflandırma</h2>
+    <form action="{{ url_for('predict') }}" method="post" novalidate>
+        <div class="mb-3">
+            <label for="email_text" class="form-label">E-posta Metni</label>
+            <textarea class="form-control" id="email_text" name="email_text" rows="8" placeholder="E-posta metnini buraya yapıştırın..." required></textarea>
+            <div class="invalid-feedback">
+                Lütfen e-posta metnini girin.
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Tahmin Et</button>
+    </form>
+    <a href="{{ url_for('home') }}" class="btn btn-secondary w-100 mt-3">Geri Dön</a>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Form doğrulama
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('form')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
+{% endblock %}

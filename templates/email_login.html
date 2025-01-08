@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}E-posta Hesabı Bağlan{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4 text-center">E-posta Hesabına Bağlan</h2>
+    <form action="{{ url_for('classify_emails') }}" method="post" novalidate>
+        <div class="mb-3">
+            <label for="user_email" class="form-label">E-posta Adresi</label>
+            <input type="email" class="form-control" id="user_email" name="user_email" placeholder="example@gmail.com" required>
+            <div class="invalid-feedback">
+                Lütfen geçerli bir e-posta adresi girin.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="user_password" class="form-label">Şifre</label>
+            <input type="password" class="form-control" id="user_password" name="user_password" placeholder="Şifrenizi girin" required>
+            <div class="invalid-feedback">
+                Lütfen şifrenizi girin.
+            </div>
+        </div>
+        <button type="submit" class="btn btn-secondary w-100">Bağlan ve Sınıflandır</button>
+    </form>
+    <a href="{{ url_for('home') }}" class="btn btn-secondary w-100 mt-3">Geri Dön</a>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Form doğrulama
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('form')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
+{% endblock %}

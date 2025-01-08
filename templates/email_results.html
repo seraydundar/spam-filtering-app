@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}E-posta Sonuçları - Spam Filtreleme{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4 text-center">Sınıflandırılan E-postalar</h2>
+    <p class="text-center">E-posta Hesabı: <strong>{{ user_email }}</strong></p>
+    {% if classifications %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Konu</th>
+                        <th>Gönderen</th>
+                        <th>Sonuç</th>
+                        <th>Olasılık (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for email in classifications %}
+                        <tr>
+                            <td>{{ email.subject }}</td>
+                            <td>{{ email.from }}</td>
+                            {% if email.prediction == 'spam' %}
+                                <td class="text-danger"><strong>Spam</strong></td>
+                                <td class="text-danger">{{ '%.2f'|format(email.proba * 100) }}</td>
+                            {% else %}
+                                <td class="text-success"><strong>Ham</strong></td>
+                                <td class="text-success">{{ '%.2f'|format((1 - email.proba) * 100) }}</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-warning" role="alert">
+            Sınıflandırılacak e-posta bulunamadı.
+        </div>
+    {% endif %}
+    <a href="{{ url_for('home') }}" class="btn btn-secondary mt-3">Geri Dön</a>
+{% endblock %}
